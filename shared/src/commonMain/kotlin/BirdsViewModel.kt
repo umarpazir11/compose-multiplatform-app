@@ -1,4 +1,6 @@
-import dev.icerock.moko.mvvm.compose.viewModelFactory
+import com.myapplication.Database
+import data.local.DriverFactory
+import data.local.getDataBase
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -16,7 +18,7 @@ import model.BirdImage
  * @Author: Umer Dilpazir
  * @Date: 04.09.23.
  */
-class BirdsViewModel: ViewModel() {
+class BirdsViewModel(): ViewModel() {
     private val _uiState = MutableStateFlow<BirdsUiState>(BirdsUiState())
     val uiState: StateFlow<BirdsUiState> = _uiState.asStateFlow()
 
@@ -27,8 +29,11 @@ class BirdsViewModel: ViewModel() {
         }
     }
 
+   // private val db: Database = createDatabase(DriverFactory().createDriver())
+
 
     init {
+        getDataBase()
         updateImages()
     }
 
@@ -65,4 +70,15 @@ data class BirdsUiState(
 ) {
     val categories : Set<String> = images.map { it.category }.toSet()
     val selectedImage: List<BirdImage> = images.filter { it.category == selectedCategory }
+}
+
+
+fun createDatabase(driverFactory: DriverFactory) : Database {
+    val driver = driverFactory.createDriver()
+    Database.Schema.create(driver);
+    val database = Database(driver)
+    val queries = database.birdsQueries
+    queries.insertBird("aaa", "bb", "ccc")
+
+    return database
 }

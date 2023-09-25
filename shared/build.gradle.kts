@@ -4,6 +4,7 @@ plugins {
     id("org.jetbrains.compose")
     //kotlin("jvm") version "1.9.0" // or kotlin("multiplatform") or any other kotlin plugin
     kotlin("plugin.serialization") version "1.9.0"
+    id("app.cash.sqldelight") version "2.0.0"
 }
 
 kotlin {
@@ -45,7 +46,7 @@ kotlin {
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.10.1")
                 implementation("io.ktor:ktor-client-android:2.3.4")
-
+                implementation("app.cash.sqldelight:android-driver:2.0.0")
             }
         }
         val iosX64Main by getting
@@ -59,6 +60,7 @@ kotlin {
 
             dependencies {
                 implementation("io.ktor:ktor-client-darwin:2.3.4")
+                implementation("app.cash.sqldelight:native-driver:2.0.0")
             }
         }
     }
@@ -82,4 +84,15 @@ android {
     kotlin {
         jvmToolchain(17)
     }
+
+    sqldelight {
+        databases {
+            create("Database") {
+                packageName.set("com.myapplication")
+            }
+        }
+    }
+}
+dependencies {
+    implementation("androidx.room:room-common:2.4.2")
 }

@@ -35,6 +35,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.myapplication.Database
+import data.local.DriverFactory
+import data.local.getDataBase
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 import io.kamel.image.KamelImage
@@ -45,12 +48,12 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsChannel
+import io.ktor.http.ContentType
 import io.ktor.http.Headers
 import io.ktor.serialization.kotlinx.json.json
 import model.BirdImage
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
-
 @Composable
 fun BirdAppTheme(content: @Composable () -> Unit) {
     MaterialTheme(
@@ -64,10 +67,11 @@ fun BirdAppTheme(content: @Composable () -> Unit) {
         content()
     }
 }
-
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun App() {
+
+
     BirdAppTheme {
         val birdsViewModel = getViewModel(Unit, viewModelFactory { BirdsViewModel() })
         BirdsPage(birdsViewModel)

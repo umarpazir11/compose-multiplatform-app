@@ -1,0 +1,13 @@
+CREATE TABLE Birds (
+  id INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT,
+  author TEXT NOT NULL,
+  category TEXT NOT NULL,
+  path TEXT NOT NULL
+);
+
+INSERT INTO Birds (author, category, path)
+VALUES ("15", 'Ryan Getzlaf', "sss");
+
+insertBird:
+INSERT INTO Birds(author, category, path)
+VALUES (?,?,?);
