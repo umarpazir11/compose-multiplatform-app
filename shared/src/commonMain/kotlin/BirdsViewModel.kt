@@ -1,12 +1,6 @@
-import com.myapplication.Database
-import data.local.DriverFactory
-import data.local.getDataBase
+
+import data.repository.BirdRepository
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.request.get
-import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,28 +12,20 @@ import model.BirdImage
  * @Author: Umer Dilpazir
  * @Date: 04.09.23.
  */
-class BirdsViewModel(): ViewModel() {
+class BirdsViewModel(birdRepository: BirdRepository): ViewModel() {
     private val _uiState = MutableStateFlow<BirdsUiState>(BirdsUiState())
     val uiState: StateFlow<BirdsUiState> = _uiState.asStateFlow()
-
-
-    private val httpClient: HttpClient = HttpClient{
-        install(ContentNegotiation){
-            json()
-        }
-    }
 
    // private val db: Database = createDatabase(DriverFactory().createDriver())
 
 
     init {
-        getDataBase()
-        updateImages()
+        //updateImages()
+       viewModelScope.launch {
+           birdRepository.syncLocalDatabaseWithServer()
+        }
     }
 
-    override fun onCleared() {
-        httpClient.close()
-    }
 
     fun selectedCategory(category: String) {
         _uiState.update {
@@ -48,20 +34,13 @@ class BirdsViewModel(): ViewModel() {
     }
 
     private fun updateImages() {
-        viewModelScope.launch {
+/*        viewModelScope.launch {
             val images = getImages()
             _uiState.update {
                 it.copy(images = images)
             }
-        }
+        }*/
     }
-
-    private suspend fun getImages(): List<BirdImage> {
-        val images = httpClient.get("https://sebi.io/demo-image-api/pictures.json")
-            .body<List<BirdImage>>()
-        return images
-    }
-
 }
 
 data class BirdsUiState(
@@ -70,15 +49,4 @@ data class BirdsUiState(
 ) {
     val categories : Set<String> = images.map { it.category }.toSet()
     val selectedImage: List<BirdImage> = images.filter { it.category == selectedCategory }
-}
-
-
-fun createDatabase(driverFactory: DriverFactory) : Database {
-    val driver = driverFactory.createDriver()
-    Database.Schema.create(driver);
-    val database = Database(driver)
-    val queries = database.birdsQueries
-    queries.insertBird("aaa", "bb", "ccc")
-
-    return database
 }

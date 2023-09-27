@@ -1,59 +1,51 @@
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.AbsoluteCutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Colors
-import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.myapplication.Database
 import data.local.DriverFactory
-import data.local.getDataBase
+import data.repository.BirdRepository
+import database.BirdsQueries
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
+import di.coreModule
+import di.initKoin
+import di.sharedModules
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.request.get
-import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.bodyAsChannel
-import io.ktor.http.ContentType
-import io.ktor.http.Headers
-import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.launch
 import model.BirdImage
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.KoinApplication
+import org.koin.compose.KoinContext
+import org.koin.compose.KoinIsolatedContext
+import org.koin.compose.koinInject
+import org.koin.core.component.inject
+import org.koin.dsl.module
+
+private val koin = initKoin().koin
 @Composable
 fun BirdAppTheme(content: @Composable () -> Unit) {
     MaterialTheme(
@@ -67,14 +59,37 @@ fun BirdAppTheme(content: @Composable () -> Unit) {
         content()
     }
 }
+
+/*@InternalCoroutinesApi
+suspend fun main() {
+    val repo = koin.get<BirdRepository>()
+    repo.syncLocalDatabaseWithServer()
+}*/
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun App() {
+/*    KoinContext {
+        val myService  = koinInject<BirdRepository>()
+        GlobalScope.launch(Dispatchers.IO) {
+            myService.syncLocalDatabaseWithServer()
+        }
+    }*/
 
+    KoinApplication(application = {
+        modules(
+            *sharedModules
+        )}) {
+        //val abc = koin.get<BirdRepository>()
+        //val abc = koin.get<BirdRepository>()
 
-    BirdAppTheme {
-        val birdsViewModel = getViewModel(Unit, viewModelFactory { BirdsViewModel() })
-        BirdsPage(birdsViewModel)
+/*        val myService  = koinInject<BirdRepository>()
+        GlobalScope.launch(Dispatchers.IO) {
+            myService.syncLocalDatabaseWithServer()
+        }*/
+        BirdAppTheme {
+            //val birdsViewModel = getViewModel(Unit, viewModelFactory { BirdsViewModel() })
+            //BirdsPage(birdsViewModel)
+        }
     }
 }
 

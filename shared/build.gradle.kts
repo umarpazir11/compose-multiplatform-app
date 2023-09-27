@@ -37,6 +37,11 @@ kotlin {
                 api("dev.icerock.moko:mvvm-core:0.16.1") // only ViewModel, EventsDispatcher, Dispatchers.UI
                 api("dev.icerock.moko:mvvm-compose:0.16.1") // api mvvm-core, getViewModel for Compose Multiplatfrom
 
+                implementation("io.insert-koin:koin-core:3.5.0")
+                implementation("io.insert-koin:koin-compose:1.1.0")
+                implementation("io.insert-koin:koin-core-coroutines:3.5.0")
+
+
 
             }
         }
@@ -47,6 +52,8 @@ kotlin {
                 api("androidx.core:core-ktx:1.10.1")
                 implementation("io.ktor:ktor-client-android:2.3.4")
                 implementation("app.cash.sqldelight:android-driver:2.0.0")
+                implementation("io.insert-koin:koin-android:3.5.0")
+
             }
         }
         val iosX64Main by getting
