@@ -1,7 +1,9 @@
 package di
 
 import app.cash.sqldelight.db.SqlDriver
+import data.createDatabase
 import data.repository.BirdRepository
+import data.sqlDriverFactory
 import database.BirdsQueries
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
@@ -16,11 +18,9 @@ import org.koin.dsl.module
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
     startKoin {
         appDeclaration()
-        modules(coreModule, platformModule)
+        modules(coreModule)
     }
 
-
-expect val platformModule: Module
 
 
 // called by iOS client
@@ -33,11 +33,14 @@ val coreModule = module {
 /*    single<Database> {*//**//*
         Database(get<SqlDriver>())
     }*/
-    single<BirdsQueries> { get<BirdsQueries>() }
+   // single<BirdsQueries> { get<BirdsQueries>() }
 
-    single { get<SqlDriver>() }
+ //   single { get<SqlDriver>() }
+
+    factory { sqlDriverFactory() }
+    single { createDatabase(driver = get()) }
 
     //single { get<DriverFactory>() }
 
-    factory { BirdRepository() }
+    factory { BirdRepository(get()) }
 }

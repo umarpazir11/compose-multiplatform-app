@@ -1,6 +1,8 @@
 package data.repository
 
 
+import com.myapplication.Database
+import database.Birds
 import database.BirdsQueries
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -12,25 +14,27 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 
-class BirdRepository(): KoinComponent {
-    //private val database: AppDatabase  = AppDatabase(databaseDriverFactory)
-    //val db = database.birdsQueries
-    private val apolloClient: BirdsQueries by inject()
+class BirdRepository(db: Database): KoinComponent {
+    val db = db.birdsQueries
     suspend fun syncLocalDatabaseWithServer() {
-        getImagesFromServer().forEach {
+       return getImagesFromServer().forEach {
             println("again ourput: $it")
 
-            apolloClient.insertBird(
-                author = it.author+"new",
+            db.insertBird(
+                author = it.author+"yessss",
                 category = it.category,
                 path = it.path
             )
         }
     }
 
-    private suspend fun getImagesFromServer(): List<BirdImage> {
+    suspend fun getImagesFromServer(): List<BirdImage> {
         return httpClient.get("https://sebi.io/demo-image-api/pictures.json")
             .body()
+    }
+
+    suspend fun getImagesFromDatabase() : List<Birds> {
+        return db.getBirds("PIGEON").executeAsList()
     }
 
 

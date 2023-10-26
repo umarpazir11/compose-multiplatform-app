@@ -1,5 +1,7 @@
 
+import com.myapplication.Database
 import data.repository.BirdRepository
+import database.Birds
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +22,9 @@ class BirdsViewModel(birdRepository: BirdRepository): ViewModel() {
 
 
     init {
-        //updateImages()
+        updateImages(birdRepository)
+        //birdRepository.birdsQueries.insertBird("new", "bird", "yes")
+        //birdRepository.syncLocalDatabaseWithServer()
        viewModelScope.launch {
            birdRepository.syncLocalDatabaseWithServer()
         }
@@ -33,20 +37,20 @@ class BirdsViewModel(birdRepository: BirdRepository): ViewModel() {
         }
     }
 
-    private fun updateImages() {
-/*        viewModelScope.launch {
-            val images = getImages()
+    private fun updateImages(birdRepository: BirdRepository) {
+        viewModelScope.launch {
+            val images = birdRepository.getImagesFromDatabase()
             _uiState.update {
                 it.copy(images = images)
             }
-        }*/
+        }
     }
 }
 
 data class BirdsUiState(
-    val images: List<BirdImage> = emptyList(),
+    val images: List<Birds> = emptyList(),
     val selectedCategory: String? = "PIGEON"
 ) {
     val categories : Set<String> = images.map { it.category }.toSet()
-    val selectedImage: List<BirdImage> = images.filter { it.category == selectedCategory }
+    val selectedImage: List<Birds> = images.filter { it.category == selectedCategory }
 }

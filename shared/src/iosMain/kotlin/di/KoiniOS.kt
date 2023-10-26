@@ -13,9 +13,9 @@ fun initKoinIos(): KoinApplication = startKoin {
     modules(*sharedModules)
 }
 
-actual val platformModule = module {
+/*actual val platformModule = module {
     single<SqlDriver> { NativeSqliteDriver(Database.Schema, "birds") }
-}
+}*/
 
 fun Koin.get(objCClass: ObjCClass): Any {
     val kClazz = getOriginalKotlinClass(objCClass)!!

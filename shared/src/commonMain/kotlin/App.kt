@@ -23,11 +23,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import data.local.DriverFactory
 import data.repository.BirdRepository
+import database.Birds
 import database.BirdsQueries
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 import di.coreModule
-import di.initKoin
 import di.sharedModules
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
@@ -45,7 +45,7 @@ import org.koin.compose.koinInject
 import org.koin.core.component.inject
 import org.koin.dsl.module
 
-private val koin = initKoin().koin
+//private val koin = initKoin().koin
 @Composable
 fun BirdAppTheme(content: @Composable () -> Unit) {
     MaterialTheme(
@@ -75,10 +75,7 @@ fun App() {
         }
     }*/
 
-    KoinApplication(application = {
-        modules(
-            *sharedModules
-        )}) {
+
         //val abc = koin.get<BirdRepository>()
         //val abc = koin.get<BirdRepository>()
 
@@ -86,11 +83,13 @@ fun App() {
         GlobalScope.launch(Dispatchers.IO) {
             myService.syncLocalDatabaseWithServer()
         }*/
+
+        //val birdRepository = koin.get<BirdRepository>()
+    val myService  = koinInject<BirdRepository>()
         BirdAppTheme {
-            //val birdsViewModel = getViewModel(Unit, viewModelFactory { BirdsViewModel() })
-            //BirdsPage(birdsViewModel)
+            val birdsViewModel = getViewModel(Unit, viewModelFactory { BirdsViewModel(myService) })
+            BirdsPage(birdsViewModel)
         }
-    }
 }
 
 @Composable
@@ -148,7 +147,7 @@ fun Header(categoryName: String) {
 }
 
 @Composable
-fun BirdImageCell(image: BirdImage) {
+fun BirdImageCell(image: Birds) {
     KamelImage(
         asyncPainterResource("https://sebi.io/demo-image-api/${image.path}"),
         contentDescription = "${image.category} by ${image.author}",

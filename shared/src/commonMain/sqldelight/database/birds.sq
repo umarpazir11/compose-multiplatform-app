@@ -8,3 +8,8 @@ CREATE TABLE Birds (
 insertBird:
 INSERT INTO Birds(author, category, path)
 VALUES (?,?,?);
+
+getBirds:
+SELECT *
+FROM Birds
+WHERE category = :category;
