@@ -1,0 +1,15 @@
+CREATE TABLE Birds (
+  id INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT,
+  author TEXT NOT NULL,
+  category TEXT NOT NULL,
+  path TEXT NOT NULL
+);
+
+insertBird:
+INSERT INTO Birds(author, category, path)
+VALUES (?,?,?);
+
+getBirds:
+SELECT *
+FROM Birds;
+--WHERE category = :category LIMIT 20;
