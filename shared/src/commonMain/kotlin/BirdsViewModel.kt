@@ -1,5 +1,5 @@
 
-import com.myapplication.Database
+
 import data.repository.BirdRepository
 import database.Birds
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import model.BirdImage
 
 /**
  * @Author: Umer Dilpazir
@@ -17,24 +16,21 @@ import model.BirdImage
 class BirdsViewModel(birdRepository: BirdRepository): ViewModel() {
     private val _uiState = MutableStateFlow<BirdsUiState>(BirdsUiState())
     val uiState: StateFlow<BirdsUiState> = _uiState.asStateFlow()
-
-   // private val db: Database = createDatabase(DriverFactory().createDriver())
-
-
     init {
-        updateImages(birdRepository)
-        //birdRepository.birdsQueries.insertBird("new", "bird", "yes")
-        //birdRepository.syncLocalDatabaseWithServer()
        viewModelScope.launch {
            birdRepository.syncLocalDatabaseWithServer()
         }
+
     }
 
-
-    fun selectedCategory(category: String) {
+    fun selectedCategory(birdRepo: BirdRepository, category: String) {
+        println("category----: $category")
         _uiState.update {
             it.copy(selectedCategory = category)
         }
+
+        println("Here---->${uiState.value.toString()}")
+        updateImages(birdRepo)
     }
 
     private fun updateImages(birdRepository: BirdRepository) {
@@ -49,8 +45,7 @@ class BirdsViewModel(birdRepository: BirdRepository): ViewModel() {
 
 data class BirdsUiState(
     val images: List<Birds> = emptyList(),
-    val selectedCategory: String? = "PIGEON"
+    val selectedCategory: String? = null
 ) {
-    val categories : Set<String> = images.map { it.category }.toSet()
-    val selectedImage: List<Birds> = images.filter { it.category == selectedCategory }
+    val allImages: List<Birds> = images
 }

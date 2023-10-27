@@ -3,7 +3,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.compose")
     //kotlin("jvm") version "1.9.0" // or kotlin("multiplatform") or any other kotlin plugin
-    kotlin("plugin.serialization") version "1.9.0"
+    kotlin("plugin.serialization") version "1.9.10"
     id("app.cash.sqldelight") version "2.0.0"
 }
 
@@ -17,7 +17,7 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "shared"
-            isStatic = true
+            isStatic = false
         }
     }
 
@@ -47,9 +47,9 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                api("androidx.activity:activity-compose:1.7.2")
+                api("androidx.activity:activity-compose:1.8.0")
                 api("androidx.appcompat:appcompat:1.6.1")
-                api("androidx.core:core-ktx:1.10.1")
+                api("androidx.core:core-ktx:1.12.0")
                 implementation("io.ktor:ktor-client-android:2.3.4")
                 implementation("app.cash.sqldelight:android-driver:2.0.0")
                 implementation("io.insert-koin:koin-android:3.5.0")
@@ -98,8 +98,9 @@ android {
                 packageName.set("com.myapplication")
             }
         }
+        this.linkSqlite.set(true)
     }
 }
 dependencies {
-    implementation("androidx.room:room-common:2.4.2")
+    implementation("androidx.room:room-common:2.6.0")
 }

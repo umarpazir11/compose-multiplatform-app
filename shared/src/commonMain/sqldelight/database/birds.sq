@@ -11,5 +11,5 @@ VALUES (?,?,?);
 
 getBirds:
 SELECT *
-FROM Birds
-WHERE category = :category;
+FROM Birds;
+--WHERE category = :category LIMIT 20;
