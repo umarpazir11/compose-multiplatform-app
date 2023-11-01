@@ -1,3 +1,5 @@
+package ui
+
 import data.repository.BirdRepository
 import database.Birds
 import dev.icerock.moko.mvvm.viewmodel.ViewModel

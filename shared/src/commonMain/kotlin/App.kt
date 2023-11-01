@@ -1,4 +1,3 @@
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,14 +24,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import data.DatabaseConstants.BASE_URL
-import data.DatabaseConstants.LAYOUT_COLUMN
-import data.DatabaseConstants.MORE_DATA
+import core.Constants.BASE_URL
+import core.Constants.LAYOUT_COLUMN
+import core.Constants.MORE_DATA
 import data.repository.BirdRepository
 import database.Birds
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.koin.compose.koinInject
+import ui.BirdsViewModel
 
 //private val koin = initKoin().koin
 @Composable

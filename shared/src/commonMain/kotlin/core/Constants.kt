@@ -1,6 +1,6 @@
-package data
+package core
 
-object DatabaseConstants {
+object Constants {
     const val DATABASE_NAME = "birds_db"
     const val BASE_URL = "https://sebi.io/demo-image-api/"
     const val LAYOUT_COLUMN = 6
