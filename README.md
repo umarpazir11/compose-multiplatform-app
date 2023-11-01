@@ -2,27 +2,19 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 # [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform) mobile application
 
-> **Note**
-> Compose Multiplatform for iOS is in Alpha. It may change incompatibly and require manual migration in the future.
-> We would appreciate your feedback on it in the public Slack channel [#compose-ios](https://kotlinlang.slack.com/archives/C0346LWVBJ4/p1678888063176359).
-> If you have any issues, please report them on [GitHub](https://github.com/JetBrains/compose-multiplatform/issues).
+Main focus of this app is to build app for android and iOS by using compose multiplatform, clean architecture approach, MVVM, Koin, Ktor, SQLDelight, MOKO.
 
-You can use this template to start developing your own [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform#readme) mobile application targeting Android and iOS.
-Follow our tutorial below to get your first Compose Multiplatform app up and running.
-The result will be a [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) project that uses the Compose Multiplatform UI framework.
-
-![](readme_images/banner.png)
-
-If you want to create an application targeting desktop platforms – Windows, macOS, or Linux –
-use the [Compose Multiplatform desktop application template](https://github.com/JetBrains/compose-multiplatform-desktop-template#readme).
+* [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/)
+* [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
+*  MVVM
+*  [Koin](https://ktor.io/docs/getting-started-ktor-client-multiplatform-mobile.html)
+* The [SQLDelight 2.0.0](https://cashapp.github.io/sqldelight/2.0.0/js_sqlite/multiplatform/)
+* Kotlin 1.9.10
+* [MOKO](https://github.com/icerockdev/moko-resources)
 
 ## Set up the environment
 
-> **Warning**
-> You need a Mac with macOS to write and run iOS-specific code on simulated or real devices.
-> This is an Apple requirement.
-
-To work with this template, you need the following:
+To run this Demo, you need the following:
 
 * A machine running a recent version of macOS
 * [Xcode](https://apps.apple.com/us/app/xcode/id497799835)
@@ -94,15 +86,13 @@ It depends on and uses the `shared` module as a CocoaPods dependency.
 
 ### On Android
 
-To run your application on an Android emulator:
+To run this application on an Android emulator:
 
 1. Ensure you have an Android virtual device available. Otherwise, [create one](https://developer.android.com/studio/run/managing-avds#createavd).
 2. In the list of run configurations, select `androidApp`.
 3. Choose your virtual device and click **Run**:
 
    <img src="readme_images/run_on_android.png" height="60px">
-
-   <img src="readme_images/android_app_running.png" height="200px">
 
 <details>
   <summary>Alternatively, use Gradle</summary>
@@ -128,11 +118,10 @@ To run your application on an iOS simulator in Android Studio, modify the `iosAp
 
 4. The `iosApp` run configuration is now available. Click **Run** next to your virtual device:
 
-<img src="readme_images/hello_world_ios.png" height="200px">
 
 #### Running on a real device
 
-You can run your Compose Multiplatform application on a real iOS device for free.
+You can run this application on a real iOS device.
 To do so, you'll need the following:
 
 * The `TEAM_ID` associated with your [Apple ID](https://support.apple.com/en-us/HT204316)
@@ -187,71 +176,13 @@ To run the application, set the `TEAM_ID`:
 2. Set your `TEAM_ID`.
 3. Re-open the project in Android Studio. It should show the registered iOS device in the `iosApp` run configuration.
 
-## Make your first changes
 
-You can now make some changes in the code and check that they are visible in both the iOS and Android applications at the same time:
-
-1. In Android Studio, navigate to the `shared/src/commonMain/kotlin/App.kt` file.
-   This is the common entry point for your Compose Multiplatform app.
-
-   Here, you see the code responsible for rendering the "Hello, World!" button and the animated Compose Multiplatform logo:
-
-   ```kotlin
-   @OptIn(ExperimentalResourceApi::class)
-   @Composable
-   fun App() {
-       MaterialTheme {
-           var greetingText by remember { mutableStateOf("Hello, World!") }
-           var showImage by remember { mutableStateOf(false) }
-           Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-               Button(onClick = {
-                   greetingText = "Hello, ${getPlatformName()}"
-                   showImage = !showImage
-               }) {
-                   Text(greetingText)
-               }
-               AnimatedVisibility(showImage) {
-                   Image(
-                       painterResource("compose-multiplatform.xml"),
-                       null
-                   )
-               }
-           }
-       }
-   }
-   ```
 
 2. Update the shared code by adding a text field that will update the name displayed on the button:
 
-   ```diff
-   @OptIn(ExperimentalResourceApi::class)
-   @Composable
-   fun App() {
-       MaterialTheme {
-           var greetingText by remember { mutableStateOf("Hello, World!") }
-           var showImage by remember { mutableStateOf(false) }
-           Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-               Button(onClick = {
-                   greetingText = "Hello, ${getPlatformName()}"
-                   showImage = !showImage
-               }) {
-                   Text(greetingText)
-               }
-   +           TextField(greetingText, onValueChange = { greetingText = it })
-               AnimatedVisibility(showImage) {
-                   Image(
-                       painterResource("compose-multiplatform.xml"),
-                       null
-                   )
-               }
-           }
-       }
-   }
-   ```
 
 3. Re-run both the `androidApp` and `iosApp` configurations. You'll see this change reflected in both the Android and iOS apps:
 
-   <img src="readme_images/text_field_added.png" height="200px">
 
 ## How to configure the iOS application
 
@@ -276,7 +207,6 @@ open the `iosApp/iosApp.xcworkspace` file in Xcode and make changes there.
 
 ## Next steps
 
-We encourage you to explore Compose Multiplatform further and try out more projects:
 
 * [Learn about other cases for using the Compose Multiplatform UI framework](https://github.com/JetBrains/compose-multiplatform#readme)
 * [Create an application targeting Windows, macOS, and Linux with Compose Multiplatform for Desktop](https://github.com/JetBrains/compose-multiplatform-desktop-template#readme)
