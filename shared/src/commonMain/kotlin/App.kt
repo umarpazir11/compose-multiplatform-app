@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.DatabaseConstants.BASE_URL
 import data.DatabaseConstants.LAYOUT_COLUMN
+import data.DatabaseConstants.MORE_DATA
 import data.repository.BirdRepository
 import database.Birds
 import io.kamel.image.KamelImage
@@ -53,9 +54,7 @@ fun BirdAppTheme(content: @Composable () -> Unit) {
 fun App() {
     val birdRepository = koinInject<BirdRepository>()
     val birdsViewModel = koinInject<BirdsViewModel>()
-    //birdRepository.syncLocalDatabaseWithServer()
     //val birdsViewModel = getViewModel(Unit, viewModelFactory { BirdsViewModel(birdRepository) })
-
     BirdAppTheme {
         BirdsPage(birdsViewModel, birdRepository)
     }
@@ -88,10 +87,10 @@ fun BirdsPage(viewModel: BirdsViewModel, birdRepository: BirdRepository) {
                             Header("PIGEON")
                         }
                     }
-                    items(uiState.allImages.filter { it.category == "PIGEON" }.take(16)) {
+                    items(uiState.allImages.filter { it.category == "PIGEON" }.take(16+MORE_DATA)) {
                         BirdImageCell(it)
                     }
-                    item(17, span = { GridItemSpan(LAYOUT_COLUMN) }) {
+                    item(17+MORE_DATA, span = { GridItemSpan(LAYOUT_COLUMN) }) {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth().padding(top = 12.dp)
@@ -99,11 +98,11 @@ fun BirdsPage(viewModel: BirdsViewModel, birdRepository: BirdRepository) {
                             Header("EAGLE")
                         }
                     }
-                    items(uiState.allImages.filter { it.category == "EAGLE" }.take(9)) {
+                    items(uiState.allImages.filter { it.category == "EAGLE" }.take(9+MORE_DATA)) {
                         BirdImageCell(it)
                     }
 
-                    item(27, span = { GridItemSpan(LAYOUT_COLUMN) }) {
+                    item(27+MORE_DATA, span = { GridItemSpan(LAYOUT_COLUMN) }) {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth().padding(top = 12.dp)
@@ -111,7 +110,7 @@ fun BirdsPage(viewModel: BirdsViewModel, birdRepository: BirdRepository) {
                             Header("OWL")
                         }
                     }
-                    items(uiState.allImages.filter { it.category == "OWL" }.take(8)) {
+                    items(uiState.allImages.filter { it.category == "OWL" }.take(8+MORE_DATA)) {
                         BirdImageCell(it)
                     }
                 }

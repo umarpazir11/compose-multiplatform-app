@@ -7,5 +7,5 @@ import org.koin.core.scope.Scope
 
 
 actual fun Scope.sqlDriverFactory(): SqlDriver {
-    return NativeSqliteDriver(Database.Schema, "${DatabaseConstants.name}.db")
+    return NativeSqliteDriver(Database.Schema, "${DatabaseConstants.DATABASE_NAME}.db")
 }

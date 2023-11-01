@@ -9,7 +9,7 @@ Main focus of this app is to build app for an Android and iOS by using compose m
 *  MVVM
 *  [Koin](https://ktor.io/docs/getting-started-ktor-client-multiplatform-mobile.html)
 * The [SQLDelight 2.0.0](https://cashapp.github.io/sqldelight/2.0.0/js_sqlite/multiplatform/)
-* [Kotlin 1.9.10] (https://kotlinlang.org/docs/releases.html)
+* [Kotlin 1.9.10](https://kotlinlang.org/docs/releases.html)
 * [MOKO](https://github.com/icerockdev/moko-resources)
 
 ## Set up the environment
