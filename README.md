@@ -2,14 +2,14 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 # [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform) mobile application
 
-Main focus of this app is to build app for android and iOS by using compose multiplatform, clean architecture approach, MVVM, Koin, Ktor, SQLDelight, MOKO.
+Main focus of this app is to build app for an Android and iOS by using compose multiplatform, clean architecture approach, MVVM, Koin, Ktor, SQLDelight, MOKO.
 
 * [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/)
 * [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
 *  MVVM
 *  [Koin](https://ktor.io/docs/getting-started-ktor-client-multiplatform-mobile.html)
 * The [SQLDelight 2.0.0](https://cashapp.github.io/sqldelight/2.0.0/js_sqlite/multiplatform/)
-* Kotlin 1.9.10
+* [Kotlin 1.9.10] (https://kotlinlang.org/docs/releases.html)
 * [MOKO](https://github.com/icerockdev/moko-resources)
 
 ## Set up the environment
