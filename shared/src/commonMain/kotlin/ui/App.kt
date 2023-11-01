@@ -1,3 +1,5 @@
+package ui
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,7 +34,6 @@ import database.Birds
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.koin.compose.koinInject
-import ui.BirdsViewModel
 
 //private val koin = initKoin().koin
 @Composable
@@ -143,4 +144,4 @@ fun BirdImageCell(image: Birds) {
     }
 }
 
-expect fun getPlatformName(): String
+//expect fun getPlatformName(): String
