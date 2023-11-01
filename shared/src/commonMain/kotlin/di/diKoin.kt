@@ -1,5 +1,6 @@
 package di
 
+import BirdsViewModel
 import data.createDatabase
 import data.repository.BirdRepository
 import data.sqlDriverFactory
@@ -33,4 +34,6 @@ val coreModule = module {
     single { createDatabase(driver = get()) }
 
     factory { BirdRepository(get()) }
+
+    single { BirdsViewModel(get()) }
 }

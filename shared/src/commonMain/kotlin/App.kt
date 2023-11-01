@@ -25,10 +25,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import data.DatabaseConstants.BASE_URL
+import data.DatabaseConstants.LAYOUT_COLUMN
 import data.repository.BirdRepository
 import database.Birds
-import dev.icerock.moko.mvvm.compose.getViewModel
-import dev.icerock.moko.mvvm.compose.viewModelFactory
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.koin.compose.koinInject
@@ -52,14 +52,17 @@ fun BirdAppTheme(content: @Composable () -> Unit) {
 @Composable
 fun App() {
     val birdRepository = koinInject<BirdRepository>()
+    val birdsViewModel = koinInject<BirdsViewModel>()
+    //birdRepository.syncLocalDatabaseWithServer()
+    //val birdsViewModel = getViewModel(Unit, viewModelFactory { BirdsViewModel(birdRepository) })
+
     BirdAppTheme {
-        val birdsViewModel = getViewModel(Unit, viewModelFactory { BirdsViewModel(birdRepository) })
         BirdsPage(birdsViewModel, birdRepository)
     }
 }
 
 @Composable
-fun BirdsPage(viewModel: BirdsViewModel, myService: BirdRepository) {
+fun BirdsPage(viewModel: BirdsViewModel, birdRepository: BirdRepository) {
     val uiState by viewModel.uiState.collectAsState()
     Column(
         Modifier.fillMaxWidth(),
@@ -70,14 +73,14 @@ fun BirdsPage(viewModel: BirdsViewModel, myService: BirdRepository) {
             Modifier.fillMaxWidth().padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            viewModel.selectedCategory(myService, "PIGEON")
+            viewModel.selectedCategory(birdRepository, "PIGEON")
             LazyVerticalGrid(
-                columns = GridCells.Fixed(6),
+                columns = GridCells.Fixed(LAYOUT_COLUMN),
                 horizontalArrangement = Arrangement.spacedBy(24.dp),
                 verticalArrangement = Arrangement.spacedBy(24.dp),
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 16.dp),
                 content = {
-                    item(0, span = { GridItemSpan(6) }) {
+                    item(0, span = { GridItemSpan(LAYOUT_COLUMN) }) {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth().padding(top = 12.dp)
@@ -88,7 +91,7 @@ fun BirdsPage(viewModel: BirdsViewModel, myService: BirdRepository) {
                     items(uiState.allImages.filter { it.category == "PIGEON" }.take(16)) {
                         BirdImageCell(it)
                     }
-                    item(17, span = { GridItemSpan(6) }) {
+                    item(17, span = { GridItemSpan(LAYOUT_COLUMN) }) {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth().padding(top = 12.dp)
@@ -100,7 +103,7 @@ fun BirdsPage(viewModel: BirdsViewModel, myService: BirdRepository) {
                         BirdImageCell(it)
                     }
 
-                    item(27, span = { GridItemSpan(6) }) {
+                    item(27, span = { GridItemSpan(LAYOUT_COLUMN) }) {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth().padding(top = 12.dp)
@@ -129,7 +132,7 @@ fun Header(categoryName: String) {
 fun BirdImageCell(image: Birds) {
     Column {
         KamelImage(
-            asyncPainterResource("https://sebi.io/demo-image-api/${image.path}"),
+            asyncPainterResource(BASE_URL+image.path),
             contentDescription = "${image.category} by ${image.author}",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxWidth().aspectRatio(1.4f).shadow(

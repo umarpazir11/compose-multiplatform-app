@@ -1,5 +1,3 @@
-
-
 import data.repository.BirdRepository
 import database.Birds
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
@@ -13,23 +11,21 @@ import kotlinx.coroutines.launch
  * @Author: Umer Dilpazir
  * @Date: 04.09.23.
  */
-class BirdsViewModel(birdRepository: BirdRepository): ViewModel() {
+class BirdsViewModel(birdRepository: BirdRepository) : ViewModel() {
     private val _uiState = MutableStateFlow<BirdsUiState>(BirdsUiState())
     val uiState: StateFlow<BirdsUiState> = _uiState.asStateFlow()
-    init {
-       viewModelScope.launch {
-           birdRepository.syncLocalDatabaseWithServer()
-        }
 
+    init {
+        println("init started")
+        viewModelScope.launch {
+            birdRepository.syncLocalDatabaseWithServer()
+        }.isCompleted
     }
 
     fun selectedCategory(birdRepo: BirdRepository, category: String) {
-        println("category----: $category")
         _uiState.update {
             it.copy(selectedCategory = category)
         }
-
-        println("Here---->${uiState.value.toString()}")
         updateImages(birdRepo)
     }
 
@@ -39,7 +35,7 @@ class BirdsViewModel(birdRepository: BirdRepository): ViewModel() {
             _uiState.update {
                 it.copy(images = images)
             }
-        }
+        }.isCompleted
     }
 }
 

@@ -2,6 +2,7 @@ package data.repository
 
 
 import com.myapplication.Database
+import data.DatabaseConstants.BASE_URL
 import database.Birds
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -24,7 +25,7 @@ class BirdRepository(db: Database): KoinComponent {
     }
 
     private suspend fun getImagesFromServer(): List<BirdImage> {
-        return httpClient.get("https://sebi.io/demo-image-api/pictures.json")
+        return httpClient.get(BASE_URL+"pictures.json")
             .body()
     }
 
