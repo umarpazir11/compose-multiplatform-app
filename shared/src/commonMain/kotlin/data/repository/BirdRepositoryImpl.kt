@@ -2,15 +2,17 @@ package data.repository
 
 
 import com.myapplication.Database
-import database.Birds
+import data.model.BirdImage
 import data.network.client.BirdClient
+import data.toBirdImage
+import domain.repository.BirdRepository
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class BirdRepository(db: Database): KoinComponent {
+class BirdRepositoryImpl(db: Database): BirdRepository, KoinComponent {
     private val db = db.birdsQueries
     private val birdClient: BirdClient by inject()
-    suspend fun syncLocalDatabaseWithServer() {
+    override suspend fun syncLocalDatabaseWithServer() {
        return birdClient.getBirdList().forEach {
             db.insertBird(
                 author = it.author,
@@ -20,8 +22,8 @@ class BirdRepository(db: Database): KoinComponent {
         }
     }
 
-    fun getImagesFromDatabase() : List<Birds> {
-        return db.getBirds().executeAsList()
+    override fun getImagesFromDatabase() : List<BirdImage> {
+        return db.getBirds().executeAsList().map { it.toBirdImage() }
     }
 
 }

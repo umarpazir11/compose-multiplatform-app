@@ -3,7 +3,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.compose")
     //kotlin("jvm") version "1.9.0" // or kotlin("multiplatform") or any other kotlin plugin
-    kotlin("plugin.serialization") version "1.9.10"
+    kotlin("plugin.serialization") version "1.9.20"
     id("app.cash.sqldelight") version "2.0.0"
 }
 

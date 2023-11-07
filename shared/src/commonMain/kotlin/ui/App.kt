@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.sp
 import core.Constants.BASE_URL
 import core.Constants.LAYOUT_COLUMN
 import core.Constants.MORE_DATA
-import data.repository.BirdRepository
-import database.Birds
+import data.model.BirdImage
+import data.repository.BirdRepositoryImpl
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.koin.compose.koinInject
@@ -53,7 +53,7 @@ fun BirdAppTheme(content: @Composable () -> Unit) {
 
 @Composable
 fun App() {
-    val birdRepository = koinInject<BirdRepository>()
+    val birdRepository = koinInject<BirdRepositoryImpl>()
     val birdsViewModel = koinInject<BirdsViewModel>()
     //val birdsViewModel = getViewModel(Unit, viewModelFactory { BirdsViewModel(birdRepository) })
     BirdAppTheme {
@@ -62,7 +62,7 @@ fun App() {
 }
 
 @Composable
-fun BirdsPage(viewModel: BirdsViewModel, birdRepository: BirdRepository) {
+fun BirdsPage(viewModel: BirdsViewModel, birdRepository: BirdRepositoryImpl) {
     val uiState by viewModel.uiState.collectAsState()
     Column(
         Modifier.fillMaxWidth(),
@@ -129,7 +129,7 @@ fun Header(categoryName: String) {
 }
 
 @Composable
-fun BirdImageCell(image: Birds) {
+fun BirdImageCell(image: BirdImage) {
     Column {
         KamelImage(
             asyncPainterResource(BASE_URL+image.path),

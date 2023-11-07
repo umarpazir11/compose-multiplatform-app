@@ -3,7 +3,7 @@ package di
 import com.myapplication.shared.data.network.di.networkModule
 import ui.BirdsViewModel
 import data.database.createDatabase
-import data.repository.BirdRepository
+import data.repository.BirdRepositoryImpl
 import data.database.sqlDriverFactory
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
@@ -34,7 +34,7 @@ val coreModule = module {
 
     single { createDatabase(driver = get()) }
 
-    factory { BirdRepository(get()) }
+    factory { BirdRepositoryImpl(get()) }
 
     single { BirdsViewModel(get()) }
 }
