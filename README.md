@@ -207,7 +207,7 @@ open the `iosApp/iosApp.xcworkspace` file in Xcode and make changes there.
 
 ## Next steps
 
-* [Add Navigation] (https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-navigation-routing.html)
+* [Add Navigation](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-navigation-routing.html)
 * Add Custom UI by using Compose Multiplatform
 * Switch to K2 Compiler (https://blog.jetbrains.com/kotlin/2023/11/kotlin-1-9-20-released/#:~:text=The%20New%20Kotlin%20K2%20Compiler,better%20architecture%20for%20multiplatform%20projects.)
 * [Target Windows, macOS, and Linux with Compose Multiplatform for Desktop](https://github.com/JetBrains/compose-multiplatform-desktop-template#readme)
