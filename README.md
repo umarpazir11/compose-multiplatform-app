@@ -207,8 +207,7 @@ open the `iosApp/iosApp.xcworkspace` file in Xcode and make changes there.
 
 ## Next steps
 
-
-* [Learn about other cases for using the Compose Multiplatform UI framework](https://github.com/JetBrains/compose-multiplatform#readme)
-* [Create an application targeting Windows, macOS, and Linux with Compose Multiplatform for Desktop](https://github.com/JetBrains/compose-multiplatform-desktop-template#readme)
-* [Complete more Compose Multiplatform tutorials](https://github.com/JetBrains/compose-multiplatform/blob/master/tutorials/README.md)
-* [Explore some more advanced Compose Multiplatform example projects](https://github.com/JetBrains/compose-multiplatform/blob/master/examples/README.md)
+* Add Navigation
+* Add Custom UI by using Compose Multiplatform
+* Switch to K2 Compiler (https://blog.jetbrains.com/kotlin/2023/11/kotlin-1-9-20-released/#:~:text=The%20New%20Kotlin%20K2%20Compiler,better%20architecture%20for%20multiplatform%20projects.)
+* [Target Windows, macOS, and Linux with Compose Multiplatform for Desktop](https://github.com/JetBrains/compose-multiplatform-desktop-template#readme)
