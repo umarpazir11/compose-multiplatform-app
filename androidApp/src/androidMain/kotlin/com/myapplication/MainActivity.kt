@@ -1,6 +1,6 @@
 package com.myapplication
 
-import MainView
+import ui.MainView
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity

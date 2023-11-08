@@ -1,3 +1,4 @@
+package ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,10 +26,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import data.repository.BirdRepository
-import database.Birds
-import dev.icerock.moko.mvvm.compose.getViewModel
-import dev.icerock.moko.mvvm.compose.viewModelFactory
+import core.Constants.BASE_URL
+import core.Constants.LAYOUT_COLUMN
+import core.Constants.MORE_DATA
+import data.model.BirdImage
+import data.repository.BirdRepositoryImpl
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.koin.compose.koinInject
@@ -51,15 +53,16 @@ fun BirdAppTheme(content: @Composable () -> Unit) {
 
 @Composable
 fun App() {
-    val birdRepository = koinInject<BirdRepository>()
+    val birdRepository = koinInject<BirdRepositoryImpl>()
+    val birdsViewModel = koinInject<BirdsViewModel>()
+    //val birdsViewModel = getViewModel(Unit, viewModelFactory { BirdsViewModel(birdRepository) })
     BirdAppTheme {
-        val birdsViewModel = getViewModel(Unit, viewModelFactory { BirdsViewModel(birdRepository) })
         BirdsPage(birdsViewModel, birdRepository)
     }
 }
 
 @Composable
-fun BirdsPage(viewModel: BirdsViewModel, myService: BirdRepository) {
+fun BirdsPage(viewModel: BirdsViewModel, birdRepository: BirdRepositoryImpl) {
     val uiState by viewModel.uiState.collectAsState()
     Column(
         Modifier.fillMaxWidth(),
@@ -70,14 +73,14 @@ fun BirdsPage(viewModel: BirdsViewModel, myService: BirdRepository) {
             Modifier.fillMaxWidth().padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            viewModel.selectedCategory(myService, "PIGEON")
+            viewModel.selectedCategory(birdRepository, "PIGEON")
             LazyVerticalGrid(
-                columns = GridCells.Fixed(6),
+                columns = GridCells.Fixed(LAYOUT_COLUMN),
                 horizontalArrangement = Arrangement.spacedBy(24.dp),
                 verticalArrangement = Arrangement.spacedBy(24.dp),
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 16.dp),
                 content = {
-                    item(0, span = { GridItemSpan(6) }) {
+                    item(0, span = { GridItemSpan(LAYOUT_COLUMN) }) {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth().padding(top = 12.dp)
@@ -85,10 +88,10 @@ fun BirdsPage(viewModel: BirdsViewModel, myService: BirdRepository) {
                             Header("PIGEON")
                         }
                     }
-                    items(uiState.allImages.filter { it.category == "PIGEON" }.take(16)) {
+                    items(uiState.allImages.filter { it.category == "PIGEON" }.take(16+MORE_DATA)) {
                         BirdImageCell(it)
                     }
-                    item(17, span = { GridItemSpan(6) }) {
+                    item(17+MORE_DATA, span = { GridItemSpan(LAYOUT_COLUMN) }) {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth().padding(top = 12.dp)
@@ -96,11 +99,11 @@ fun BirdsPage(viewModel: BirdsViewModel, myService: BirdRepository) {
                             Header("EAGLE")
                         }
                     }
-                    items(uiState.allImages.filter { it.category == "EAGLE" }.take(9)) {
+                    items(uiState.allImages.filter { it.category == "EAGLE" }.take(9+MORE_DATA)) {
                         BirdImageCell(it)
                     }
 
-                    item(27, span = { GridItemSpan(6) }) {
+                    item(27+MORE_DATA, span = { GridItemSpan(LAYOUT_COLUMN) }) {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth().padding(top = 12.dp)
@@ -108,7 +111,7 @@ fun BirdsPage(viewModel: BirdsViewModel, myService: BirdRepository) {
                             Header("OWL")
                         }
                     }
-                    items(uiState.allImages.filter { it.category == "OWL" }.take(8)) {
+                    items(uiState.allImages.filter { it.category == "OWL" }.take(8+MORE_DATA)) {
                         BirdImageCell(it)
                     }
                 }
@@ -126,10 +129,10 @@ fun Header(categoryName: String) {
 }
 
 @Composable
-fun BirdImageCell(image: Birds) {
+fun BirdImageCell(image: BirdImage) {
     Column {
         KamelImage(
-            asyncPainterResource("https://sebi.io/demo-image-api/${image.path}"),
+            asyncPainterResource(BASE_URL+image.path),
             contentDescription = "${image.category} by ${image.author}",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxWidth().aspectRatio(1.4f).shadow(
@@ -141,4 +144,4 @@ fun BirdImageCell(image: Birds) {
     }
 }
 
-expect fun getPlatformName(): String
+//expect fun getPlatformName(): String

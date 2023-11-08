@@ -1,8 +1,10 @@
 package di
 
-import data.createDatabase
-import data.repository.BirdRepository
-import data.sqlDriverFactory
+import com.myapplication.shared.data.network.di.networkModule
+import ui.BirdsViewModel
+import data.database.createDatabase
+import data.repository.BirdRepositoryImpl
+import data.database.sqlDriverFactory
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
@@ -15,7 +17,7 @@ import org.koin.dsl.module
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
     startKoin {
         appDeclaration()
-        modules(coreModule)
+        modules(coreModule, networkModule)
     }
 
 
@@ -32,5 +34,7 @@ val coreModule = module {
 
     single { createDatabase(driver = get()) }
 
-    factory { BirdRepository(get()) }
+    factory { BirdRepositoryImpl(get()) }
+
+    single { BirdsViewModel(get()) }
 }
