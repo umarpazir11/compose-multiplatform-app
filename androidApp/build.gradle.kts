@@ -10,6 +10,12 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(project(":shared"))
+                implementation("io.insert-koin:koin-core:3.5.0")
+                implementation("io.insert-koin:koin-test:3.5.0")
+                implementation("io.insert-koin:koin-android:3.5.0")
+                implementation("io.insert-koin:koin-core-coroutines:3.5.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
+
             }
         }
     }
